@@ -5,4 +5,6 @@ seq2seq/data/__pycache__/
 seq2seq/models/__pycache__/
 
 bpe/
+checkpoints_bpe/
 bpe_dropout/
+checkpoints_bpe_dropout/
