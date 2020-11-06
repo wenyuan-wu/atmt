@@ -29,3 +29,5 @@ for i in range(num_merges):
     best = max(pairs, key=pairs.get)
     vocab = merge_vocab(best, vocab)
     print(best)
+
+print(vocab)
