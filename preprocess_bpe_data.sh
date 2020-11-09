@@ -12,6 +12,7 @@ cp tiny_train.en tiny_train.en.bk
 
 subword-nmt learn-joint-bpe-and-vocab --input train.de train.en -s 4000 -o joint_de_en.code --write-vocabulary vocab.de vocab.en
 
+# apply BPE to train, validation and test data
 subword-nmt apply-bpe -c joint_de_en.code --vocabulary vocab.de --vocabulary-threshold 1 < train.de.bk > train.de
 subword-nmt apply-bpe -c joint_de_en.code --vocabulary vocab.en --vocabulary-threshold 1 < train.en.bk > train.en
 

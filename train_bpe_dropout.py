@@ -13,6 +13,9 @@ from seq2seq.data.dictionary import Dictionary
 from seq2seq.data.dataset import Seq2SeqDataset, BatchSampler
 from seq2seq.models import ARCH_MODEL_REGISTRY, ARCH_CONFIG_REGISTRY
 
+# TODO: import predefined python scripts to apply BPE dropout
+import generate_bpe_dropout_data
+
 
 def get_args():
     """ Defines training-specific hyper-parameters. """
@@ -76,7 +79,7 @@ def main(args):
             tgt_file=os.path.join(args.data, '{:s}.{:s}'.format(split, args.target_lang)),
             src_dict=src_dict, tgt_dict=tgt_dict)
 
-    # TODO: here moved to line 105
+    # TODO: lines here are moved to line 108
     # train_dataset = load_data(split='train') if not args.train_on_tiny else load_data(split='tiny_train')
     # valid_dataset = load_data(split='valid')
 
@@ -101,9 +104,11 @@ def main(args):
 
     for epoch in range(last_epoch + 1, args.max_epoch):
         # TODO: apply bpe dropout to data files
-        # generate_bpe_dropout()
+        generate_bpe_dropout_data.generate_bpe_dropout_data()
         train_dataset = load_data(split='train') if not args.train_on_tiny else load_data(split='tiny_train')
         valid_dataset = load_data(split='valid')
+        # print("training data regenerated")
+
         train_loader = \
             torch.utils.data.DataLoader(train_dataset, num_workers=1, collate_fn=train_dataset.collater,
                                         batch_sampler=BatchSampler(train_dataset, args.max_tokens, args.batch_size, 1,
