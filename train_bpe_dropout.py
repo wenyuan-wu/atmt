@@ -107,7 +107,7 @@ def main(args):
         generate_bpe_dropout_data.generate_bpe_dropout_data()
         train_dataset = load_data(split='train') if not args.train_on_tiny else load_data(split='tiny_train')
         valid_dataset = load_data(split='valid')
-        # print("training data regenerated")
+        print("Apply BPE dropout to training data and reload.")
 
         train_loader = \
             torch.utils.data.DataLoader(train_dataset, num_workers=1, collate_fn=train_dataset.collater,

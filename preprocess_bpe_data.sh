@@ -25,8 +25,13 @@ subword-nmt apply-bpe -c joint_de_en.code --vocabulary vocab.en --vocabulary-thr
 subword-nmt apply-bpe -c joint_de_en.code --vocabulary vocab.de --vocabulary-threshold 1 < tiny_train.de.bk > tiny_train.de
 subword-nmt apply-bpe -c joint_de_en.code --vocabulary vocab.en --vocabulary-threshold 1 < tiny_train.en.bk > tiny_train.en
 
-cd ../..
-mkdir -p bpe/prepared_data
+cd ..
+mkdir -p prepared_data
+cp preprocessed_data/vocab.de prepared_data/dict.de
+cp preprocessed_data/vocab.en prepared_data/dict.en
+cd ..
+
 python preprocess.py --target-lang en --source-lang de --dest-dir bpe/prepared_data/ --train-prefix bpe/preprocessed_data/train \
 --valid-prefix bpe/preprocessed_data/valid --test-prefix bpe/preprocessed_data/test --tiny-train-prefix bpe/preprocessed_data/tiny_train \
---threshold-src 1 --threshold-tgt 1 --num-words-src 4000 --num-words-tgt 4000
+--threshold-src 1 --threshold-tgt 1 --num-words-src 4000 --num-words-tgt 4000 \
+--vocab-src bpe/prepared_data/dict.de --vocab-trg bpe/prepared_data/dict.en

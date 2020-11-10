@@ -4,7 +4,7 @@ import os
 from seq2seq.data.dictionary import Dictionary
 
 
-def process_bpe_dropout(code, vocab, in_name, out_name):
+def process_bpe_dropout(code, vocab, in_name, out_name, dropout=0.0):
     """
     To apply BPE on desired data and output processed files.
     """
@@ -14,7 +14,7 @@ def process_bpe_dropout(code, vocab, in_name, out_name):
     num_workers = apply_bpe.cpu_count()
     output_file = open(out_name, 'w', encoding='utf-8')
     bpe = apply_bpe.BPE(codes=codes, vocab=vocabulary)
-    bpe.process_lines(in_name, output_file, dropout=0.1, num_workers=num_workers)
+    bpe.process_lines(in_name, output_file, dropout=dropout, num_workers=num_workers)
 
 
 def preprocess_data(dest_dir,
@@ -62,8 +62,21 @@ def generate_bpe_dropout_data():
     """
     Function to pass desired arguments (files paths) to functions above to prepare data files for each training epoch.
     """
-    for prefix in ['train', 'valid', 'test', 'tiny_train']:
-        code = 'bpe_dropout/preprocessed_data/joint_de_en.code'
+    code = 'bpe_dropout/preprocessed_data/joint_de_en.code'
+    # apply BPE dropout on training data
+    for prefix in ['train', 'tiny_train']:
+        vocab = 'bpe_dropout/preprocessed_data/vocab.de'
+        in_name = f'bpe_dropout/preprocessed_data/{prefix}.de.bk'
+        out_name = f'bpe_dropout/preprocessed_data/{prefix}.de'
+        process_bpe_dropout(code, vocab, in_name, out_name, dropout=0.1)
+
+        vocab = 'bpe_dropout/preprocessed_data/vocab.en'
+        in_name = f'bpe_dropout/preprocessed_data/{prefix}.en.bk'
+        out_name = f'bpe_dropout/preprocessed_data/{prefix}.en'
+        process_bpe_dropout(code, vocab, in_name, out_name, dropout=0.1)
+
+    # no BPE dropout on validation and test data
+    for prefix in ['valid', 'test']:
         vocab = 'bpe_dropout/preprocessed_data/vocab.de'
         in_name = f'bpe_dropout/preprocessed_data/{prefix}.de.bk'
         out_name = f'bpe_dropout/preprocessed_data/{prefix}.de'
