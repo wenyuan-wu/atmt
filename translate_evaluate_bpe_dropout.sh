@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-dest_dir=output_bpe
+dest_dir=output_bpe_dropout
 mkdir -p $dest_dir
 
-python translate.py --data bpe/prepared_data --checkpoint-path checkpoints_bpe/checkpoint_best.pt --output \
+python translate.py --data bpe_dropout/prepared_data --checkpoint-path checkpoints_bpe_dropout/checkpoint_best.pt --output \
 $dest_dir/model_translation.txt --cuda True
 
 # restore translation from BPE

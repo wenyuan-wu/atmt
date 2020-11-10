@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 mkdir -p bpe
 cp -r baseline/preprocessed_data bpe/preprocessed_data
 cd bpe/preprocessed_data || exit

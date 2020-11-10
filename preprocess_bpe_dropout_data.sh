@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 mkdir -p bpe_dropout
 cp -r baseline/preprocessed_data bpe_dropout/preprocessed_data
 cd bpe_dropout/preprocessed_data || exit
